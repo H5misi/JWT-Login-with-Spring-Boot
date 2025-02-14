@@ -1,0 +1,14 @@
+{
+	"java.compile.nullAnalysis.mode": "automatic",
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"java.import.gradle.enabled": true,
+	"java.import.gradle.java.home": "/usr/lib/jvm/jdk-21.0.6",
+	"java.configuration.runtimes": [
+		{
+			"name": "JavaSE-21",
+			"path": "/usr/lib/jvm/jdk-21.0.6"
+		}
+	],
+	"java.import.gradle.wrapper.enabled": true,
+	"java.jdt.ls.java.home": "/usr/lib/jvm/jdk-21.0.6"
+}
