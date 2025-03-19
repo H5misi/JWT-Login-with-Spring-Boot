@@ -11,10 +11,10 @@ import lombok.Setter;
 public class LoginResponse {
     
     private String token;
-    private String expiresIn; // indicates the duration until the token expires, typically in seconds or milliseconds
+    private Long expiresIn; // indicates the duration until the token expires, typically in seconds or milliseconds
 
 
-    public LoginResponse(String token, String expiresIn) {
+    public LoginResponse(String token, Long expiresIn) {
         this.token = token;
         this.expiresIn = expiresIn;
     }
