@@ -41,6 +41,7 @@ public class AuthenticationController {
      * - ResponseEntity: Spring class represents HTTP response, including status code, headers, and body
      * - @RequestBody: tells spring to deserialize the JSON payload request body into the object next to it
      */
+    @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto){
         User registeredUser = authenticationService.signup(registerUserDto);
         // Return the user details in ResponseEntity with a 200 OK status as JSON
