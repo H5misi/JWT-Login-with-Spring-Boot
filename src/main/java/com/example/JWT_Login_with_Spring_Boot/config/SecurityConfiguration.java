@@ -46,7 +46,7 @@ public class SecurityConfiguration {
             // Authorization rules
             .authorizeHttpRequests(
                     authorize -> authorize
-                            .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to "/auth/**" endpoints
+                            .requestMatchers("/authentication/**").permitAll() // Allow unauthenticated access to "/auth/**" endpoints
                             .anyRequest().authenticated()) // Require authentication for all other endpoints
             // Use stateless session(no server-side session)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
