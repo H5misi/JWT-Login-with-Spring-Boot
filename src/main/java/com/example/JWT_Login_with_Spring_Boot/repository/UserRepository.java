@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.JWT_Login_with_Spring_Boot.model.User;
 
 
+
 /**
  * Repository interface for handling User entity database operations for User entities.
  * @Repository marks this as a Spring Data Access Object (DAO) component and enables:
@@ -28,5 +29,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * given email(or anything else), it will return an empty Optional rather than null.
     */
     Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
     Optional<User> findByVerificationCode(String verificationCode);
 }
