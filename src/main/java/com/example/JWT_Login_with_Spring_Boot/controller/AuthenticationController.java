@@ -1,5 +1,7 @@
 package com.example.JWT_Login_with_Spring_Boot.controller;
 
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,10 +44,28 @@ public class AuthenticationController {
      * - @RequestBody: tells spring to deserialize the JSON payload request body into the object next to it
      */
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto){
-        User registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto){
+        
+        User registeringUser = authenticationService.signup(registerUserDto);
+
+        /**
+         * Check for ID if null or not 
+         * if null -> partial user details = conflict with email / username
+         * if not null -> full user details = new user success registration
+         * */
+        if (registeringUser.getId() == null) {
+            // Check for email & username to determine which one is used
+            if (registeringUser.getEmail() != null && registeringUser.getUsername() == null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email is already used!");
+            } else if (registeringUser.getUsername() != null && registeringUser.getEmail() == null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Username is already used!");
+            } else if (registeringUser.getEmail() != null && registeringUser.getUsername() != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("User is already existed!");
+            }
+        }
         // Return the user details in ResponseEntity with a 200 OK status as JSON
-        return ResponseEntity.ok(registeredUser);
+        // return ResponseEntity.ok(registeringUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeringUser);
     }
 
 
