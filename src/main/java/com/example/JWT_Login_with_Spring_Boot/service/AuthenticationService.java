@@ -43,16 +43,40 @@ public class AuthenticationService {
     
 
     /**
-     * Register a new user, generates a verification code, sends a verification email, 
+     * Check for existence and Register a new user, generates a verification code, sends a verification email, 
      * and save the user to the database
      */
     public User signup(RegisterUserDto registerUserDto){
+
+        Optional<User> existingByEmail = userRepository.findByEmail(registerUserDto.getEmail());
+        Optional<User> existingByUsername = userRepository.findByUsername(registerUserDto.getUsername());
+
+        // Check for the conflict, either the Email or Username is already exist (or both)
+        if (existingByEmail.isPresent() || existingByUsername.isPresent()) {
+
+            User existUser = new User();
+
+            // Check if the Email is exist, and set it if so
+            if (existingByEmail.isPresent()) {
+                existUser.setEmail(registerUserDto.getEmail());
+            }
+
+            // Check if the Username is exist, and set it so
+            if (existingByUsername.isPresent()) {
+                existUser.setUsername(registerUserDto.getUsername());
+            }
+
+            // return User type object with the exist user's details
+            return existUser;
+        }
+
+        // If no conflict, create and save a new user
         User user = new User(
                 registerUserDto.getUsername(),
                 registerUserDto.getEmail(), 
                 passwordEncoder.encode(registerUserDto.getPassword()));
 
-        
+         
         user.setVerificationCode(generateVerificationCode());
 
         // Set the verification code to expire in 15 minutes
